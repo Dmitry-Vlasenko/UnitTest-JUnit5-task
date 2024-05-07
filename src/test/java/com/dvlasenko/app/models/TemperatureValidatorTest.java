@@ -1,24 +1,24 @@
 package com.dvlasenko.app.models;
 
 import com.dvlasenko.app.utils.TemperatureOutOfRangeException;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TemperatureValidatorTest {
 
-    @Test
-    void testValidTemperature() {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 25, -10, 35, 11, -3})
+    void testValidTemperature(int temperature) {
         TemperatureValidator validator = new TemperatureValidator();
-        assertDoesNotThrow(() -> validator.validateTemperature(0));
-        assertDoesNotThrow(() -> validator.validateTemperature(25));
-        assertDoesNotThrow(() -> validator.validateTemperature(-10));
-        assertDoesNotThrow(() -> validator.validateTemperature(35));
+        assertDoesNotThrow(() -> validator.validateTemperature(temperature));
     }
 
-    @Test
-    void testInvalidTemperature() {
+    @ParameterizedTest
+    @ValueSource(ints = {-11, 36})
+    void testInvalidTemperature(int temperature) {
         TemperatureValidator validator = new TemperatureValidator();
-        assertThrows(TemperatureOutOfRangeException.class, () -> validator.validateTemperature(-11));
-        assertThrows(TemperatureOutOfRangeException.class, () -> validator.validateTemperature(36));
+        assertThrows(TemperatureOutOfRangeException.class, () -> validator.validateTemperature(temperature));
     }
 }

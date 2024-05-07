@@ -16,7 +16,7 @@ public class TemperatureValidatorTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {-11, 36})
+    @ValueSource(ints = {-11, -100 ,36, 100})
     void testInvalidTemperature(int temperature) {
         TemperatureValidator validator = new TemperatureValidator();
         assertThrows(TemperatureOutOfRangeException.class, () -> validator.validateTemperature(temperature));
